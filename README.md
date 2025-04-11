@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎨 Theme Converter  DaisyUI para Shadcn
 
-## Getting Started
+Uma ferramenta simples para transformar temas do DaisyUI em variáveis compatíveis com o sistema de design do Shadcn/UI.
 
-First, run the development server:
+## ✅ Como Usar?
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 1. Acesse o Theme Generator
+
+Abra o gerador de temas no DaisyUI:  
+🔗 [https://daisyui.com/theme-generator/](https://daisyui.com/theme-generator/)
+
+---
+
+### 2. Escolha seu Tema
+
+Use os controles para personalizar as cores conforme desejar.
+
+---
+
+### 3. Copie o CSS Gerado
+
+Copie **apenas as linhas que começam com `--` (variáveis CSS)**.
+
+📌 **Importante:** copie todas as linhas **a partir de `--color-base-100` até `--noise:`**.
+
+Exemplo:
+
+```css
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(93% 0 0);
+  --color-base-300: oklch(87% 0 0);
+  --color-base-content: oklch(22.389% 0.031 278.072);
+  --color-primary: oklch(58% 0.158 241.966);
+   até a linha "--noise: 0;"
+
 ```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 4. Cole no Conversor do Nosso Site
+Volte ao nosso site, cole essas variáveis no `textarea` ao final da página e clique em `Converter`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+O CSS convertido para tokens do Shadcn será gerado ao lado.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+### 5. Atualize seu CSS
+Copie o bloco `:root` gerado e cole no seu arquivo globals.css, substituindo o `:root` original.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🌙 Tema Escuro (opcional)
+Caso queira criar um Dark Theme, basta:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Trocar o seletor `:root` por `.dark`
 
-## Deploy on Vercel
+Substituir o seu `.dark` original por esse novo bloco gerado
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> 💡 **Observações**  
+> Você pode editar manualmente o CSS convertido.  
+> Isso ajuda a ajustar o visual dos seus componentes antes de aplicar no projeto.
+
+---
+
+## 📝 Considerações Finais
+
+Este conversor foi pensado para facilitar a personalização de temas no ecossistema Shadcn, aproveitando a flexibilidade visual do DaisyUI.
+
+Ele permite uma transição rápida e visualmente precisa entre estilos, mantendo consistência e produtividade no desenvolvimento de interfaces modernas.
+
+Se quiser contribuir com melhorias ou sugerir novos recursos, fique à vontade para abrir uma issue ou pull request.
+
+
+---
+
+## 👤 Autor
+
+Desenvolvido por **Fabiano Gonçalves**  
