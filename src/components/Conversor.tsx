@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 
 import Button from './Button';
-import Card from './Card';
 import SubTitle from './SubTitle';
 import { Textarea } from './ui/textarea';
 import { Copy, SwitchCamera } from 'lucide-react';
@@ -15,7 +14,9 @@ interface ColorItem {
 
 const Conversor = () => {
 	const [originText, setOriginText] = useState<string>('');
-	const [coversorText, setCoversorText] = useState<string>('');
+	const [coversorText, setCoversorText] = useState<string>(
+		':root {\n--background: oklch(18.522% 0.007 17.911);\n--foreground: oklch(83.768% 0.001 17.911);\n--card: oklch(20.84% 0.008 17.911);\n--card-foreground: oklch(83.768% 0.001 17.911);\n--popover: oklch(16.203% 0.007 17.911);\n--popover-foreground: oklch(83.768% 0.001 17.911);\n--primary: oklch(68.628% 0.185 148.958);\n--primary-foreground: oklch(0% 0 0);\n--secondary: oklch(0% 0 0/0.5);\n--secondary-foreground: oklch(68.628% 0.185 148.958);\n--accent: oklch(70.628% 0.119 185.713);\n--accent-foreground: oklch(14.125% 0.023 185.713);\n--muted: oklch(83.768% 0.001 17.911/0.1);\n--muted-foreground: oklch(83.768% 0.001 17.911/0.5);\n--destructive: oklch(71.76% 0.221 22.18);\n--destructive-foreground: oklch(0% 0 0);\n--chart-1: oklch(72.06% 0.191 231.6);\n--chart-2: oklch(84.71% 0.199 83.87);\n--chart-3: oklch(64.8% 0.15 160);\n--chart-4: oklch(71.76% 0.221 22.18);\n--chart-5: oklch(83.768% 0.001 17.911/0.3);\n--border: oklch(83.768% 0.001 17.911/0.1);\n--input: oklch(83.768% 0.001 17.911/0.3);\n--ring: oklch(68.628% 0.185 148.958/0.5);\n--radius: 1rem;\n}',
+	);
 	const [copy, setCopy] = useState<boolean>(false);
 
 	// Estado para armazenar o CSS dinâmico
@@ -125,7 +126,7 @@ const Conversor = () => {
 			return item;
 		});
 
-		const cssVariables = newObj.map(({ key, value }) => `   --${key.replace('color-', '')}: ${value}`).join('\n');
+		const cssVariables = newObj.map(({ key, value }) => `--${key.replace('color-', '')}: ${value}`).join('\n');
 
 		const cssResult = `:root {\n${cssVariables}}`;
 
@@ -150,28 +151,373 @@ const Conversor = () => {
 			}, 4000);
 	}, [copy]);
 
+	const changeColor = (item: string, newColor: string) => {
+		coversorText.split('\n').forEach((e) => {
+			if (e.includes(item)) {
+				// const originColor = e.split(':')[1].trim();
+				newColor = newColor + ';';
+				setCoversorText(coversorText.replace(e, `${item} ${newColor}`));
+			}
+		});
+
+		// console.log(coversorText);
+	};
+
+	const selectColor = (e: any) => {
+		const newColor = getComputedStyle(e.target).backgroundColor;
+		if (!itemSelected) return;
+		changeColor(`--${itemSelected}:`, newColor);
+	};
+
+	const [itemSelected, setitemSelected] = useState<string>('');
+
 	return (
 		<>
 			{/* Adiciona o CSS dinâmico ao DOM */}
 			<style>{dynamicCSS}</style>
 
-			<Card className='mx-auto my-10 w-260 space-y-2'>
+			<div className='scroll bg-card fixed top-0 left-0 z-40 h-screen w-93 space-y-2 overflow-y-auto border-r p-4 shadow-md'>
 				<SubTitle>Conversor DaisyUI x Shadcn</SubTitle>
 
-				<div className='flex gap-2'>
-					<Textarea className='h-140' onChange={(e) => setOriginText(e.target.value)} spellCheck='false' />
-					<div className='flex flex-col items-center justify-between gap-2'>
-						<Button onClick={convertText} className='flex items-center gap-2'>
+				<select onChange={(e) => setitemSelected(e.target.value)} className='scroll bg-card text-card-foreground w-full rounded border p-2 text-sm'>
+					<option value='' disabled selected>
+						Selecione o Item
+					</option>
+					<optgroup label='Deep'>
+						<option value='background'>Background</option>
+						<option value='card'>Card</option>
+						<option value='popover'>Popover</option>
+						<option value='primary'>Primary</option>
+						<option value='secondary'>Secondary</option>
+						<option value='accent'>Accent</option>
+						<option value='muted'>Muted</option>
+						<option value='destructive'>Destructive</option>
+					</optgroup>
+					<optgroup label='Text'>
+						<option value='foreground'>Foreground</option>
+						<option value='card-foreground'>Card Foreground</option>
+						<option value='popover-foreground'>Popover Foreground</option>
+						<option value='primary-foreground'>Primary Foreground</option>
+						<option value='secondary-foreground'>Secondary Foreground</option>
+						<option value='accent-foreground'>Accent Foreground</option>
+						<option value='muted-foreground'>Muted Foreground</option>
+						<option value='destructive-foreground'>Destructive Foreground</option>
+					</optgroup>
+					<optgroup label='Outros'>
+						<option value='input'>Input</option>
+						<option value='border'>Border</option>
+						<option value='ring'>Ring</option>
+						<option value='chart-1'>Chart 1</option>
+						<option value='chart-2'>Chart 2</option>
+						<option value='chart-3'>Chart 3</option>
+						<option value='chart-4'>Chart 4</option>
+						<option value='chart-5'>Chart 5</option>
+					</optgroup>
+				</select>
+
+				<div className='bg-card mx-auto flex flex-wrap gap-2 rounded p-4'>
+					<div className='flex flex-col gap-1'>
+						<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-gray-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-gray-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-gray-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-gray-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-gray-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-gray-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-gray-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-gray-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-gray-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-gray-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-gray-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-zinc-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-zinc-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-zinc-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-zinc-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-zinc-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-zinc-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-zinc-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-zinc-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-zinc-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-zinc-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-zinc-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-neutral-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-neutral-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-neutral-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-neutral-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-neutral-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-neutral-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-neutral-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-neutral-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-neutral-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-neutral-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-neutral-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-stone-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-stone-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-stone-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-stone-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-stone-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-stone-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-stone-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-stone-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-stone-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-stone-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-stone-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-red-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-red-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-red-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-red-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-red-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-red-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-red-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-red-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-red-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-red-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-red-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-orange-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-orange-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-orange-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-orange-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-orange-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-orange-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-orange-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-orange-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-orange-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-orange-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-orange-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-amber-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-amber-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-amber-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-amber-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-amber-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-amber-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-amber-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-amber-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-amber-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-amber-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-amber-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-yellow-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-yellow-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-yellow-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-yellow-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-yellow-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-yellow-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-yellow-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-yellow-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-yellow-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-yellow-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-yellow-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-lime-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-lime-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-lime-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-lime-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-lime-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-lime-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-lime-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-lime-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-lime-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-lime-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-lime-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-green-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-green-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-green-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-green-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-green-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-green-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-green-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-green-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-green-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-green-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-green-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-emerald-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-emerald-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-emerald-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-emerald-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-emerald-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-emerald-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-emerald-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-emerald-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-emerald-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-emerald-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-emerald-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-teal-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-teal-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-teal-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-teal-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-teal-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-teal-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-teal-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-teal-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-teal-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-teal-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-teal-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-cyan-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-cyan-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-cyan-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-cyan-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-cyan-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-cyan-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-cyan-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-cyan-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-cyan-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-cyan-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-cyan-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-sky-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-sky-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-sky-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-sky-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-sky-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-sky-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-sky-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-sky-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-sky-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-sky-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-sky-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-blue-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-blue-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-blue-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-blue-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-blue-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-blue-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-blue-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-blue-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-blue-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-blue-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-blue-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-indigo-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-indigo-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-indigo-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-indigo-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-indigo-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-indigo-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-indigo-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-indigo-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-indigo-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-indigo-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-indigo-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-violet-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-violet-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-violet-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-violet-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-violet-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-violet-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-violet-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-violet-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-violet-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-violet-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-violet-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-purple-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-purple-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-purple-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-purple-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-purple-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-purple-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-purple-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-purple-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-purple-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-purple-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-purple-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-fuchsia-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-fuchsia-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-fuchsia-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-fuchsia-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-fuchsia-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-fuchsia-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-fuchsia-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-fuchsia-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-fuchsia-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-fuchsia-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-fuchsia-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-pink-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-pink-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-pink-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-pink-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-pink-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-pink-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-pink-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-pink-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-pink-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-pink-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-pink-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+					<div className='flex flex-col gap-1'>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-rose-50 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-rose-100 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-rose-200 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-rose-300 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-rose-400 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-rose-500 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-rose-600 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-rose-700 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-rose-800 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-rose-900 duration-150 hover:scale-110' onClick={selectColor}></button>
+						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-rose-950 duration-150 hover:scale-110' onClick={selectColor}></button>
+					</div>
+				</div>
+
+				<div className='flex flex-col gap-2'>
+					<Textarea placeholder='CSS DaisyUI' className='scroll h-70' onChange={(e) => setOriginText(e.target.value)} spellCheck='false' />
+					<div className='flex items-center justify-between gap-2'>
+						<Button onClick={convertText} className='flex items-center gap-2' disabled={!originText}>
 							Converter <SwitchCamera size={15} />
 						</Button>
-						{copy && <MutedText className='mt-auto text-green-500'>Texto Copiado</MutedText>}
+						{copy && <MutedText>Texto Copiado</MutedText>}
 						<Button variant='ghost' className='w-max' onClick={copyText}>
 							<Copy />
 						</Button>
 					</div>
-					<Textarea className='h-140' value={coversorText} onChange={(e) => setCoversorText(e.target.value)} spellCheck='false' />
+					<Textarea className='scroll h-70' value={coversorText} onChange={(e) => setCoversorText(e.target.value)} spellCheck='false' />
 				</div>
-			</Card>
+			</div>
 		</>
 	);
 };

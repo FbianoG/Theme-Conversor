@@ -4,31 +4,32 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-   --card: oklch(20.84% 0.008 17.911);
-   --background: oklch(18.522% 0.007 17.911);
-   --popover: oklch(16.203% 0.007 17.911);
-   --foreground: oklch(83.768% 0.001 17.911);
-   --primary: oklch(68.628% 0.185 148.958);
-   --primary-foreground: oklch(0% 0 0);
-   --secondary: oklch(0% 0 0/0.5);
-   --secondary-foreground: oklch(68.628% 0.185 148.958);
-   --accent: oklch(70.628% 0.119 185.713);
-   --accent-foreground: oklch(14.125% 0.023 185.713);
-   --muted: oklch(83.768% 0.001 17.911/0.1);
-   --muted-foreground: oklch(83.768% 0.001 17.911/0.5);
-   --chart-1: oklch(72.06% 0.191 231.6);
-   --chart-3: oklch(64.8% 0.15 160);
-   --chart-4: oklch(71.76% 0.221 22.18);
-   --chart-2: oklch(84.71% 0.199 83.87);
-   --chart-5: oklch(83.768% 0.001 17.911/0.3);
-   --destructive: oklch(71.76% 0.221 22.18);
-   --destructive-foreground: oklch(0% 0 0);
-   --radius: 1rem;
-   --card-foreground: oklch(83.768% 0.001 17.911);
-   --popover-foreground: oklch(83.768% 0.001 17.911);
-   --border: oklch(83.768% 0.001 17.911/0.1);
-   --input: oklch(83.768% 0.001 17.911/0.3);
-   --ring: oklch(68.628% 0.185 148.958/0.5);}
+	--background: oklch(18.522% 0.007 17.911);
+	--foreground: oklch(83.768% 0.001 17.911);
+	--card: oklch(20.84% 0.008 17.911);
+	--card-foreground: oklch(83.768% 0.001 17.911);
+	--popover: oklch(16.203% 0.007 17.911);
+	--popover-foreground: oklch(83.768% 0.001 17.911);
+	--primary: oklch(68.628% 0.185 148.958);
+	--primary-foreground: oklch(0% 0 0);
+	--secondary: oklch(0% 0 0/0.5);
+	--secondary-foreground: oklch(68.628% 0.185 148.958);
+	--accent: oklch(70.628% 0.119 185.713);
+	--accent-foreground: oklch(14.125% 0.023 185.713);
+	--muted: oklch(83.768% 0.001 17.911/0.1);
+	--muted-foreground: oklch(83.768% 0.001 17.911/0.5);
+	--destructive: oklch(71.76% 0.221 22.18);
+	--destructive-foreground: oklch(0% 0 0);
+	--chart-1: oklch(72.06% 0.191 231.6);
+	--chart-2: oklch(84.71% 0.199 83.87);
+	--chart-3: oklch(64.8% 0.15 160);
+	--chart-4: oklch(71.76% 0.221 22.18);
+	--chart-5: oklch(83.768% 0.001 17.911/0.3);
+	--border: oklch(83.768% 0.001 17.911/0.1);
+	--input: oklch(83.768% 0.001 17.911/0.3);
+	--ring: oklch(68.628% 0.185 148.958/0.5);
+	--radius: 1rem;
+}
 
 @theme inline {
 	--color-background: var(--background);
@@ -81,5 +82,17 @@
 }
 
 .dropdown-children > * {
-	@apply hover:bg-muted py-1 px-2 cursor-pointer rounded duration-300;
+	@apply hover:bg-muted cursor-pointer rounded px-2 py-1 duration-300;
+}
+
+.scroll::-webkit-scrollbar {
+	@apply w-1.5
+}
+
+.scroll::-webkit-scrollbar-track {
+	@apply bg-transparent ;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+	@apply bg-foreground/30 rounded;
 }

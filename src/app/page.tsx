@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { HelpCircle, Moon, Sun, X } from 'lucide-react';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { Calendar } from '@/components/ui/calendar';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -50,12 +49,12 @@ export default function Home() {
 	}, []);
 
 	return (
-		<div className='flex min-h-screen flex-col px-4 md:px-8 lg:px-16 xl:px-24 2xl:px-32'>
+		<div className='pl-85 py-10'>
 			<Button variant='ghost' className='fixed top-2 right-2 hidden p-0' onClick={changeDarkMode}>
 				{theme === 'light' ? <Sun /> : <Moon />}
 			</Button>
 
-			<Button variant='ghost' onClick={() => setHelper(true)} className='fixed top-2 left-2 p-0'>
+			<Button variant='ghost' onClick={() => setHelper(true)} className='fixed top-2 left-94 p-0'>
 				<HelpCircle />
 			</Button>
 
@@ -122,24 +121,43 @@ export default function Home() {
 				</div>
 			)}
 
-			<Card className='mx-auto my-10 w-100'>
-				<Accordion type='single' collapsible>
-					<AccordionItem value='item-1'>
-						<AccordionTrigger>Is it accessible?</AccordionTrigger>
-						<AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
-					</AccordionItem>
-					<AccordionItem value='item-2'>
-						<AccordionTrigger>Is it styled?</AccordionTrigger>
-						<AccordionContent>Yes. It comes with default styles that matches the other components&apos; aesthetic.</AccordionContent>
-					</AccordionItem>
-					<AccordionItem value='item-3'>
-						<AccordionTrigger>Is it animated?</AccordionTrigger>
-						<AccordionContent>Yes. It&apos;s animated by default, but you can disable it if you prefer.</AccordionContent>
-					</AccordionItem>
-				</Accordion>
-			</Card>
+			<div className=' flex flex-wrap items-center justify-center gap-4'>
+				<Card className='relative w-75 space-y-2'>
+					<SubTitle>Text + Background</SubTitle>
+					<div className='flex flex-col gap-2'>
+						<p className='text-primary font-semibold w-max rounded px-2'>Primary</p>
+						<p className='text-foreground w-max rounded px-2'>Foreground</p>
+						<p className='bg-card text-card-foreground w-max rounded px-2'>Card-Foreground</p>
+						<p className='bg-muted text-muted-foreground w-max rounded px-2'>Muted-Foreground</p>
+						<p className='bg-accent text-accent-foreground w-max rounded px-2'>Accent-Foreground</p>
+						<p className='bg-popover text-popover-foreground w-max rounded px-2'>Popover-Foreground</p>
+					</div>
+					<Button variant='ghost' className='absolute top-2 right-2 p-0'>
+						<X size={10} />
+					</Button>
+				</Card>
 
-			<div className='flex flex-wrap items-center justify-center gap-4'>
+				<Card className='relative w-75 space-y-3'>
+					<Button variant='ghost' className='absolute top-2 right-2 p-0'>
+						<X size={10} />
+					</Button>
+
+					<SubTitle>Button and Badge</SubTitle>
+					<div className='flex gap-2'>
+						<Badge>Default</Badge>
+						<Badge variant='secondary'>Badge</Badge>
+						<Badge variant='outline'>Badge</Badge>
+						<Badge variant='destructive'>Badge</Badge>
+					</div>
+					<div className='flex w-full flex-wrap justify-center gap-2 p-2'>
+						<Button>Default</Button>
+						<Button variant='secondary'>Secondary</Button>
+						<Button variant='ghost'>Ghost</Button>
+						<Button variant='destructive'>Destructive</Button>
+						<Button variant='outline'>Outline</Button>
+					</div>
+				</Card>
+
 				<Card className='w-75 space-y-2'>
 					<SubTitle>Login</SubTitle>
 					<div className='space-y-2'>
@@ -177,27 +195,34 @@ export default function Home() {
 				</Card>
 
 				<Card className='w-75 space-y-2'>
-					<SubTitle>Configuration</SubTitle>
+					<SubTitle>Switch and Hover</SubTitle>
 					<div className='flex flex-col items-center gap-2'>
-						<div className='flex items-center gap-1'>
+						<div className='flex items-center gap-1 hover:bg-muted p-2 rounded duration-300'>
 							<div className='flex flex-col'>
 								<h5 className=''>Works</h5>
-								<p className='text-muted-foreground text-xs leading-3.5'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aperiam, provident?</p>
+								<p className='text-muted-foreground text-xs leading-3.5'>Lorem ipsum dolor sit amet consectetur.</p>
 							</div>
 							<Switch />
 						</div>
-						<div className='flex items-center gap-1'>
+						<div className='flex items-center gap-1 hover:bg-muted p-2 rounded duration-300'>
 							<div className='flex flex-col'>
 								<h5 className=''>Sports</h5>
-								<p className='text-muted-foreground text-xs leading-3.5'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aperiam, provident?</p>
+								<p className='text-muted-foreground text-xs leading-3.5'>Lorem ipsum dolor sit amet consectetur.</p>
 							</div>
 							<Switch checked />
+						</div>
+						<div className='flex items-center gap-1 hover:bg-muted p-2 rounded duration-300'>
+							<div className='flex flex-col'>
+								<h5 className=''>Flamengo</h5>
+								<p className='text-muted-foreground text-xs leading-3.5'>Lorem ipsum dolor sit amet consectetur.</p>
+							</div>
+							<Switch checked disabled />
 						</div>
 					</div>
 				</Card>
 
 				<Card className='w-75 space-y-2'>
-					<SubTitle>Outhers</SubTitle>
+					<SubTitle>CheckBox and Slider</SubTitle>
 					<div className='flex items-center space-x-2'>
 						<Checkbox id='1' />
 						<label htmlFor='1' className='text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
@@ -263,30 +288,6 @@ export default function Home() {
 				</Card>
 
 				<Calendar mode='single' className='bg-popover w-max rounded-md border' />
-
-				<Card className='relative w-75'>
-					<Button variant='ghost' className='absolute top-2 right-2 p-0'>
-						<X size={10} />
-					</Button>
-					<div className='flex gap-2'>
-						<Badge>Default</Badge>
-						<Badge variant='secondary'>Badge</Badge>
-						<Badge variant='outline'>Badge</Badge>
-						<Badge variant='destructive'>Badge</Badge>
-					</div>
-					<div className='grid'>
-						<span className='text-primary'>Primary</span>
-						<span>Foreground</span>
-						<span className='text-muted-foreground'>Muted-Foreground</span>
-					</div>
-					<div className='flex w-full flex-wrap justify-center gap-2 p-2'>
-						<Button>Default</Button>
-						<Button variant='secondary'>Secondary</Button>
-						<Button variant='ghost'>Ghost</Button>
-						<Button variant='destructive'>Destructive</Button>
-						<Button variant='outline'>Outline</Button>
-					</div>
-				</Card>
 
 				<Chart />
 			</div>
