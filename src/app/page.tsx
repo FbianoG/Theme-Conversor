@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { HelpCircle, Moon, Sun, X } from 'lucide-react';
+import {  HelpCircle, Moon, Sun, X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Calendar } from '@/components/ui/calendar';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -13,12 +13,16 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
-import Button from '@/components/Button';
 import Card from '@/components/Card';
 import Conversor from '@/components/Conversor';
 import SubTitle from '@/components/SubTitle';
 import MutedText from '@/components/MutedText';
-import Dropdown from '@/components/Dropdown';
+import Chart2 from '@/components/Chart2';
+import Chart3 from '@/components/Chart3';
+import { Carousel } from '@/components/Carousel';
+import { Dropdown } from '@/components/Dropdown';
+import { Button } from '@/components/ui/button';
+import { Drawer } from '@/components/Drawer';
 
 export default function Home() {
 	const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -49,7 +53,7 @@ export default function Home() {
 	}, []);
 
 	return (
-		<div className='pl-85 py-10'>
+		<div className='py-10 pr-10 pl-95'>
 			<Button variant='ghost' className='fixed top-2 right-2 hidden p-0' onClick={changeDarkMode}>
 				{theme === 'light' ? <Sun /> : <Moon />}
 			</Button>
@@ -121,11 +125,11 @@ export default function Home() {
 				</div>
 			)}
 
-			<div className=' flex flex-wrap items-center justify-center gap-4'>
+			<div className='flex flex-wrap items-center justify-center gap-4'>
 				<Card className='relative w-75 space-y-2'>
 					<SubTitle>Text + Background</SubTitle>
 					<div className='flex flex-col gap-2'>
-						<p className='text-primary font-semibold w-max rounded px-2'>Primary</p>
+						<p className='text-primary w-max rounded px-2 font-semibold'>Primary</p>
 						<p className='text-foreground w-max rounded px-2'>Foreground</p>
 						<p className='bg-card text-card-foreground w-max rounded px-2'>Card-Foreground</p>
 						<p className='bg-muted text-muted-foreground w-max rounded px-2'>Muted-Foreground</p>
@@ -149,12 +153,17 @@ export default function Home() {
 						<Badge variant='outline'>Badge</Badge>
 						<Badge variant='destructive'>Badge</Badge>
 					</div>
-					<div className='flex w-full flex-wrap justify-center gap-2 p-2'>
+					<div className='flex w-full flex-wrap justify-between  gap-2 p-2'>
 						<Button>Default</Button>
+						<Button disabled>Default</Button>
 						<Button variant='secondary'>Secondary</Button>
-						<Button variant='ghost'>Ghost</Button>
-						<Button variant='destructive'>Destructive</Button>
+						<Button disabled variant='secondary'>Secondary</Button>
 						<Button variant='outline'>Outline</Button>
+						<Button disabled variant='outline'>Outline</Button>
+						<Button variant='ghost'>Ghost</Button>
+						<Button disabled variant='ghost'>Ghost</Button>
+						<Button variant='destructive'>Destructive</Button>
+						<Button disabled variant='destructive'>Destructive</Button>
 					</div>
 				</Card>
 
@@ -197,21 +206,21 @@ export default function Home() {
 				<Card className='w-75 space-y-2'>
 					<SubTitle>Switch and Hover</SubTitle>
 					<div className='flex flex-col items-center gap-2'>
-						<div className='flex items-center gap-1 hover:bg-muted p-2 rounded duration-300'>
+						<div className='hover:bg-muted flex items-center gap-1 rounded p-2 duration-300'>
 							<div className='flex flex-col'>
 								<h5 className=''>Works</h5>
 								<p className='text-muted-foreground text-xs leading-3.5'>Lorem ipsum dolor sit amet consectetur.</p>
 							</div>
 							<Switch />
 						</div>
-						<div className='flex items-center gap-1 hover:bg-muted p-2 rounded duration-300'>
+						<div className='hover:bg-muted flex items-center gap-1 rounded p-2 duration-300'>
 							<div className='flex flex-col'>
 								<h5 className=''>Sports</h5>
 								<p className='text-muted-foreground text-xs leading-3.5'>Lorem ipsum dolor sit amet consectetur.</p>
 							</div>
 							<Switch checked />
 						</div>
-						<div className='flex items-center gap-1 hover:bg-muted p-2 rounded duration-300'>
+						<div className='hover:bg-muted flex items-center gap-1 rounded p-2 duration-300'>
 							<div className='flex flex-col'>
 								<h5 className=''>Flamengo</h5>
 								<p className='text-muted-foreground text-xs leading-3.5'>Lorem ipsum dolor sit amet consectetur.</p>
@@ -262,11 +271,7 @@ export default function Home() {
 								<MutedText className='text-xs'>Namorada</MutedText>
 							</div>
 
-							<Dropdown variant='outline' title='V' className='ml-auto'>
-								<p>Mensagem</p>
-								<p>Inativo</p>
-								<p>Ligar</p>
-							</Dropdown>
+							<Dropdown/>
 						</div>
 						<div className='flex w-full items-center gap-2'>
 							<div className='h-12 w-12 overflow-hidden rounded-full shadow'>
@@ -278,18 +283,19 @@ export default function Home() {
 								<MutedText className='text-xs'>Namorada</MutedText>
 							</div>
 
-							<Dropdown variant='outline' title='V' className='ml-auto'>
-								<p>Mensagem</p>
-								<p>Inativo</p>
-								<p>Ligar</p>
-							</Dropdown>
+							<Dropdown/>
 						</div>
+						<Drawer/>
 					</div>
 				</Card>
 
 				<Calendar mode='single' className='bg-popover w-max rounded-md border' />
 
 				<Chart />
+				<Chart2 />
+				<Chart3 />
+
+				<Carousel />
 			</div>
 
 			<Conversor />

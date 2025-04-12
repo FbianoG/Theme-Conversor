@@ -1,11 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
 
-import Button from './Button';
 import SubTitle from './SubTitle';
 import { Textarea } from './ui/textarea';
 import { Copy, SwitchCamera } from 'lucide-react';
 import MutedText from './MutedText';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from './ui/select';
+import { Button } from './ui/button';
 
 interface ColorItem {
 	key: string;
@@ -179,7 +180,7 @@ const Conversor = () => {
 			<div className='scroll bg-card fixed top-0 left-0 z-40 h-screen w-93 space-y-2 overflow-y-auto border-r p-4 shadow-md'>
 				<SubTitle>Conversor DaisyUI x Shadcn</SubTitle>
 
-				<select onChange={(e) => setitemSelected(e.target.value)} className='scroll bg-card text-card-foreground w-full rounded border p-2 text-sm'>
+				{/* <select onChange={(e) => setitemSelected(e.target.value)} className='scroll bg-card text-card-foreground w-full rounded border p-2 text-sm'>
 					<option value='' disabled selected>
 						Selecione o Item
 					</option>
@@ -213,7 +214,48 @@ const Conversor = () => {
 						<option value='chart-4'>Chart 4</option>
 						<option value='chart-5'>Chart 5</option>
 					</optgroup>
-				</select>
+				</select> */}
+
+				<Select onValueChange={(e) => setitemSelected(e)}>
+					<SelectTrigger className='w-full capitalize'>
+						<SelectValue placeholder='Select an Item' />
+					</SelectTrigger>
+					<SelectContent className='capitalize'>
+						<SelectGroup>
+							<SelectLabel>Deep</SelectLabel>
+							<SelectItem value='background'>background</SelectItem>
+							<SelectItem value='card'>card</SelectItem>
+							<SelectItem value='popover'>popover</SelectItem>
+							<SelectItem value='primary'>primary</SelectItem>
+							<SelectItem value='secondary'>secondary</SelectItem>
+							<SelectItem value='accent'>accent</SelectItem>
+							<SelectItem value='muted'>muted</SelectItem>
+							<SelectItem value='destructive'>destructive</SelectItem>
+						</SelectGroup>
+						<SelectGroup>
+							<SelectLabel>Text</SelectLabel>
+							<SelectItem value='foreground'>foreground</SelectItem>
+							<SelectItem value='card-foreground'>card-foreground</SelectItem>
+							<SelectItem value='popover-foreground'>popover-foreground</SelectItem>
+							<SelectItem value='primary-foreground'>primary-foreground</SelectItem>
+							<SelectItem value='secondary-foreground'>secondary-foreground</SelectItem>
+							<SelectItem value='accent-foreground'>accent-foreground</SelectItem>
+							<SelectItem value='muted-foreground'>muted-foreground</SelectItem>
+							<SelectItem value='destructive-foreground'>destructive-foreground</SelectItem>
+						</SelectGroup>
+						<SelectGroup>
+							<SelectLabel>Outros</SelectLabel>
+							<SelectItem value='input'>input</SelectItem>
+							<SelectItem value='border'>border</SelectItem>
+							<SelectItem value='ring'>ring</SelectItem>
+							<SelectItem value='chart-1'>chart-1</SelectItem>
+							<SelectItem value='chart-2'>chart-2</SelectItem>
+							<SelectItem value='chart-3'>chart-3</SelectItem>
+							<SelectItem value='chart-4'>chart-4</SelectItem>
+							<SelectItem value='chart-5'>chart-5</SelectItem>
+						</SelectGroup>
+					</SelectContent>
+				</Select>
 
 				<div className='bg-card mx-auto flex flex-wrap gap-2 rounded p-4'>
 					<div className='flex flex-col gap-1'>
