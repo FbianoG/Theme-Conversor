@@ -1,67 +1,60 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import { useState } from 'react';
 import Link from 'next/link';
-import {  HelpCircle, Moon, Sun, X } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Calendar } from '@/components/ui/calendar';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Chart } from '@/components/Chart';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Slider } from '@/components/ui/slider';
-import { Switch } from '@/components/ui/switch';
+import { Eye, HelpCircle, X } from 'lucide-react';
 import Card from '@/components/Card';
-import Conversor from '@/components/Conversor';
+import Conversor from '@/components/SideBar';
 import SubTitle from '@/components/SubTitle';
-import MutedText from '@/components/MutedText';
-import Chart2 from '@/components/Chart2';
-import Chart3 from '@/components/Chart3';
-import { Carousel } from '@/components/Carousel';
-import { Dropdown } from '@/components/Dropdown';
 import { Button } from '@/components/ui/button';
-import { Drawer } from '@/components/Drawer';
+import Components from '@/components/Componets';
+import Preview from '@/components/Preview';
 
 export default function Home() {
-	const [theme, setTheme] = useState<'light' | 'dark'>('light');
+	// const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
 	const [helper, setHelper] = useState<boolean>(false);
 
-	const changeDarkMode = () => {
-		if (document.documentElement.classList.contains('dark')) {
-			document.documentElement.classList.remove('dark');
-			localStorage.setItem('theme', 'light');
-			setTheme('light');
-		} else {
-			document.documentElement.classList.add('dark');
-			localStorage.setItem('theme', 'dark');
-			setTheme('dark');
-		}
-	};
+	const [prev, setPrev] = useState<boolean>(false);
 
-	useEffect(() => {
-		const theme = localStorage.getItem('theme');
-		if (theme === 'dark') {
-			document.documentElement.classList.add('dark');
-			setTheme('dark');
-		} else {
-			document.documentElement.classList.remove('dark');
-			setTheme('light');
-		}
-	}, []);
+	// const changeDarkMode = () => {
+	// 	if (document.documentElement.classList.contains('dark')) {
+	// 		document.documentElement.classList.remove('dark');
+	// 		localStorage.setItem('theme', 'light');
+	// 		setTheme('light');
+	// 	} else {
+	// 		document.documentElement.classList.add('dark');
+	// 		localStorage.setItem('theme', 'dark');
+	// 		setTheme('dark');
+	// 	}
+	// };
+
+	// useEffect(() => {
+	// 	const theme = localStorage.getItem('theme');
+	// 	if (theme === 'dark') {
+	// 		document.documentElement.classList.add('dark');
+	// 		setTheme('dark');
+	// 	} else {
+	// 		document.documentElement.classList.remove('dark');
+	// 		setTheme('light');
+	// 	}
+	// }, []);
 
 	return (
-		<div className='py-10 pr-10 pl-95'>
-			<Button variant='ghost' className='fixed top-2 right-2 hidden p-0' onClick={changeDarkMode}>
+		<div className='flex'>
+			{/* Float Buttons */}
+			{/* <Button variant='ghost' className='fixed top-2 right-2 hidden p-0' onClick={changeDarkMode}>
 				{theme === 'light' ? <Sun /> : <Moon />}
-			</Button>
+			</Button> */}
 
-			<Button variant='ghost' onClick={() => setHelper(true)} className='fixed top-2 left-94 p-0'>
+			<Button title='Help' variant='ghost' onClick={() => setHelper(true)} className='fixed top-2 left-94 p-0'>
 				<HelpCircle />
 			</Button>
 
+			<Button title='Preview' onClick={() => setPrev(!prev)} variant='ghost' className='fixed top-12 left-94 p-0'>
+				<Eye />
+			</Button>
+			{/* Helper */}
 			{helper && (
 				<div className='fixed top-0 left-0 z-50 flex h-dvh w-dvw items-center justify-center'>
 					<div className='absolute -z-10 h-full w-full bg-black/70'></div>
@@ -125,180 +118,11 @@ export default function Home() {
 				</div>
 			)}
 
-			<div className='flex flex-wrap items-center justify-center gap-4'>
-				<Card className='relative w-75 space-y-2'>
-					<SubTitle>Text + Background</SubTitle>
-					<div className='flex flex-col gap-2'>
-						<p className='text-primary w-max rounded px-2 font-semibold'>Primary</p>
-						<p className='text-foreground w-max rounded px-2'>Foreground</p>
-						<p className='bg-card text-card-foreground w-max rounded px-2'>Card-Foreground</p>
-						<p className='bg-muted text-muted-foreground w-max rounded px-2'>Muted-Foreground</p>
-						<p className='bg-accent text-accent-foreground w-max rounded px-2'>Accent-Foreground</p>
-						<p className='bg-popover text-popover-foreground w-max rounded px-2'>Popover-Foreground</p>
-					</div>
-					<Button variant='ghost' className='absolute top-2 right-2 p-0'>
-						<X size={10} />
-					</Button>
-				</Card>
-
-				<Card className='relative w-75 space-y-3'>
-					<Button variant='ghost' className='absolute top-2 right-2 p-0'>
-						<X size={10} />
-					</Button>
-
-					<SubTitle>Button and Badge</SubTitle>
-					<div className='flex gap-2'>
-						<Badge>Default</Badge>
-						<Badge variant='secondary'>Badge</Badge>
-						<Badge variant='outline'>Badge</Badge>
-						<Badge variant='destructive'>Badge</Badge>
-					</div>
-					<div className='flex w-full flex-wrap justify-between  gap-2 p-2'>
-						<Button>Default</Button>
-						<Button disabled>Default</Button>
-						<Button variant='secondary'>Secondary</Button>
-						<Button disabled variant='secondary'>Secondary</Button>
-						<Button variant='outline'>Outline</Button>
-						<Button disabled variant='outline'>Outline</Button>
-						<Button variant='ghost'>Ghost</Button>
-						<Button disabled variant='ghost'>Ghost</Button>
-						<Button variant='destructive'>Destructive</Button>
-						<Button disabled variant='destructive'>Destructive</Button>
-					</div>
-				</Card>
-
-				<Card className='w-75 space-y-2'>
-					<SubTitle>Login</SubTitle>
-					<div className='space-y-2'>
-						<Label htmlFor='email'>Your email address</Label>
-						<Input type='email' placeholder='Email' />
-					</div>
-					<div className='space-y-2'>
-						<Label htmlFor='email'>Senha</Label>
-						<Input type='email' placeholder='Password' />
-					</div>
-					<div className='mt-4 flex gap-2'>
-						<Button variant='ghost' className='w-1/2'>
-							Cancel
-						</Button>
-						<Button className='w-1/2'>Access</Button>
-					</div>
-				</Card>
-
-				<Card className='group w-75 space-y-2'>
-					<div className='relative h-38 w-full overflow-hidden rounded duration-300 group-hover:brightness-75'>
-						<Image width={300} height={250} loading='lazy' alt='Image' src='/image.webp' className='duration-500 group-hover:scale-105' />
-					</div>
-
-					<div className='flex justify-between'>
-						<span className='text-sm'>Nike</span>
-						<Badge variant='secondary'>SALE</Badge>
-					</div>
-
-					<div className='flex items-center gap-2'>
-						<h5 className='text-primary text-lg font-semibold'>
-							R$389,<small className='text-xs'>90</small>
-						</h5>
-						<span className='text-muted-foreground text-xs line-through'>R$499,90</span>
-					</div>
-				</Card>
-
-				<Card className='w-75 space-y-2'>
-					<SubTitle>Switch and Hover</SubTitle>
-					<div className='flex flex-col items-center gap-2'>
-						<div className='hover:bg-muted flex items-center gap-1 rounded p-2 duration-300'>
-							<div className='flex flex-col'>
-								<h5 className=''>Works</h5>
-								<p className='text-muted-foreground text-xs leading-3.5'>Lorem ipsum dolor sit amet consectetur.</p>
-							</div>
-							<Switch />
-						</div>
-						<div className='hover:bg-muted flex items-center gap-1 rounded p-2 duration-300'>
-							<div className='flex flex-col'>
-								<h5 className=''>Sports</h5>
-								<p className='text-muted-foreground text-xs leading-3.5'>Lorem ipsum dolor sit amet consectetur.</p>
-							</div>
-							<Switch checked />
-						</div>
-						<div className='hover:bg-muted flex items-center gap-1 rounded p-2 duration-300'>
-							<div className='flex flex-col'>
-								<h5 className=''>Flamengo</h5>
-								<p className='text-muted-foreground text-xs leading-3.5'>Lorem ipsum dolor sit amet consectetur.</p>
-							</div>
-							<Switch checked disabled />
-						</div>
-					</div>
-				</Card>
-
-				<Card className='w-75 space-y-2'>
-					<SubTitle>CheckBox and Slider</SubTitle>
-					<div className='flex items-center space-x-2'>
-						<Checkbox id='1' />
-						<label htmlFor='1' className='text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
-							Natação
-						</label>
-					</div>
-					<div className='flex items-center space-x-2'>
-						<Checkbox id='2' checked />
-						<label htmlFor='2' className='text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
-							Futebol
-						</label>
-					</div>
-					<div className='mb-4 flex items-center space-x-2'>
-						<Checkbox id='3' disabled />
-						<label htmlFor='3' className='text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
-							Basquete
-						</label>
-					</div>
-
-					<Textarea placeholder='Escreva aqui' />
-
-					<Slider defaultValue={[33]} max={100} step={1} className='my-8 w-full' />
-				</Card>
-
-				<Card className='w-75'>
-					<SubTitle>Fabiano Gonçalves</SubTitle>
-					<MutedText>Software Developer</MutedText>
-					<div className='mt-4 space-y-2'>
-						<h5>Friends</h5>
-						<div className='flex w-full items-center gap-2'>
-							<div className='h-12 w-12 overflow-hidden rounded-full shadow'>
-								<img src='https://placehold.co/50' alt='' className='h-full w-full' />
-							</div>
-
-							<div>
-								<h6 className='text-sm'>Giovanna Salles</h6>
-								<MutedText className='text-xs'>Namorada</MutedText>
-							</div>
-
-							<Dropdown/>
-						</div>
-						<div className='flex w-full items-center gap-2'>
-							<div className='h-12 w-12 overflow-hidden rounded-full shadow'>
-								<img src='https://placehold.co/50' alt='' className='h-full w-full' />
-							</div>
-
-							<div>
-								<h6 className='text-sm'>Giovanna Salles</h6>
-								<MutedText className='text-xs'>Namorada</MutedText>
-							</div>
-
-							<Dropdown/>
-						</div>
-						<Drawer/>
-					</div>
-				</Card>
-
-				<Calendar mode='single' className='bg-popover w-max rounded-md border' />
-
-				<Chart />
-				<Chart2 />
-				<Chart3 />
-
-				<Carousel />
-			</div>
-
 			<Conversor />
+
+			{prev ? <Preview /> : <Components />}
+
+			{/* <Pricing /> */}
 		</div>
 	);
 }

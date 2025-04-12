@@ -7,21 +7,27 @@ import { Copy, SwitchCamera } from 'lucide-react';
 import MutedText from './MutedText';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from './ui/select';
 import { Button } from './ui/button';
+import { Label } from './ui/label';
 
 interface ColorItem {
 	key: string;
 	value: string;
 }
 
-const Conversor = () => {
+const SideBar = () => {
 	const [originText, setOriginText] = useState<string>('');
+
 	const [coversorText, setCoversorText] = useState<string>(
-		':root {\n--background: oklch(18.522% 0.007 17.911);\n--foreground: oklch(83.768% 0.001 17.911);\n--card: oklch(20.84% 0.008 17.911);\n--card-foreground: oklch(83.768% 0.001 17.911);\n--popover: oklch(16.203% 0.007 17.911);\n--popover-foreground: oklch(83.768% 0.001 17.911);\n--primary: oklch(68.628% 0.185 148.958);\n--primary-foreground: oklch(0% 0 0);\n--secondary: oklch(0% 0 0/0.5);\n--secondary-foreground: oklch(68.628% 0.185 148.958);\n--accent: oklch(70.628% 0.119 185.713);\n--accent-foreground: oklch(14.125% 0.023 185.713);\n--muted: oklch(83.768% 0.001 17.911/0.1);\n--muted-foreground: oklch(83.768% 0.001 17.911/0.5);\n--destructive: oklch(71.76% 0.221 22.18);\n--destructive-foreground: oklch(0% 0 0);\n--chart-1: oklch(72.06% 0.191 231.6);\n--chart-2: oklch(84.71% 0.199 83.87);\n--chart-3: oklch(64.8% 0.15 160);\n--chart-4: oklch(71.76% 0.221 22.18);\n--chart-5: oklch(83.768% 0.001 17.911/0.3);\n--border: oklch(83.768% 0.001 17.911/0.1);\n--input: oklch(83.768% 0.001 17.911/0.3);\n--ring: oklch(68.628% 0.185 148.958/0.5);\n--radius: 1rem;\n}',
+		':root {--card: oklch(24% 0.023 329.708);\n--background: oklch(21% 0.021 329.708);\n--popover: oklch(16% 0.019 329.708);\n--foreground: oklch(72.354% 0.092 79.129);\n--primary: oklch(71.996% 0.123 62.756);\n--primary-foreground: oklch(14.399% 0.024 62.756);\n--secondary: oklch(14.399% 0.024 62.756/0.5);\n--secondary-foreground: oklch(71.996% 0.123 62.756);\n--accent: oklch(0.374 0.01 67.558);\n--accent-foreground: oklch(0.869 0.005 56.366);\n--muted: oklch(72.354% 0.092 79.129/0.1);\n--muted-foreground: oklch(72.354% 0.092 79.129/0.5);\n--chart-1: oklch(79.49% 0.063 184.558);\n--chart-3: oklch(74.722% 0.072 131.116);\n--chart-4: oklch(77.318% 0.128 31.871);\n--chart-2: oklch(88.15% 0.14 87.722);\n--chart-5: oklch(72.354% 0.092 79.129/0.3);\n--destructive: oklch(77.318% 0.128 31.871);\n--destructive-foreground: oklch(15.463% 0.025 31.871);\n--radius: 0.5rem;\n--card-foreground: oklch(72.354% 0.092 79.129);\n--popover-foreground: oklch(72.354% 0.092 79.129);\n--border: oklch(72.354% 0.092 79.129/0.1);\n--input: oklch(72.354% 0.092 79.129/0.3);\n--ring: oklch(71.996% 0.123 62.756/0.5);}',
 	);
 	const [copy, setCopy] = useState<boolean>(false);
 
 	// Estado para armazenar o CSS dinâmico
 	const [dynamicCSS, setDynamicCSS] = useState<string>('');
+
+	const [itemSelected, setitemSelected] = useState<string>('');
+
+	const [radius, setRadius] = useState<string>();
 
 	const convertText = () => {
 		const obj: ColorItem[] = originText
@@ -104,6 +110,7 @@ const Conversor = () => {
 			}
 			if (item.key === 'radius-box') {
 				item.key = 'radius';
+				setRadius(item.value.replace('rem', ''));
 			}
 			if (item.key === 'color-info') item.key = 'chart-1';
 			if (item.key === 'color-warning') item.key = 'chart-2';
@@ -142,7 +149,9 @@ const Conversor = () => {
 
 	useEffect(() => {
 		if (coversorText) setDynamicCSS(coversorText);
-		else setDynamicCSS('');
+		const radius = coversorText.split('\n').find((e) => e.includes('radius'));
+		setRadius(radius?.split(':')[1].trim().replace('rem;', ''));
+		// else return
 	}, [coversorText]);
 
 	useEffect(() => {
@@ -170,52 +179,25 @@ const Conversor = () => {
 		changeColor(`--${itemSelected}:`, newColor);
 	};
 
-	const [itemSelected, setitemSelected] = useState<string>('');
+	const changeRadius = (value: string) => {
+		coversorText.split('\n').forEach((e) => {
+			if (e.includes('radius')) {
+				setCoversorText(coversorText.replace(e, `--radius: ${value}rem;`));
+				setRadius(value);
+			}
+		});
+	};
 
 	return (
 		<>
 			{/* Adiciona o CSS dinâmico ao DOM */}
 			<style>{dynamicCSS}</style>
 
-			<div className='scroll bg-card fixed top-0 left-0 z-40 h-screen w-93 space-y-2 overflow-y-auto border-r p-4 shadow-md'>
+			<div className='scroll bg-card  relative h-screen w-93 overflow-y-auto p-4'>
 				<SubTitle>Conversor DaisyUI x Shadcn</SubTitle>
 
-				{/* <select onChange={(e) => setitemSelected(e.target.value)} className='scroll bg-card text-card-foreground w-full rounded border p-2 text-sm'>
-					<option value='' disabled selected>
-						Selecione o Item
-					</option>
-					<optgroup label='Deep'>
-						<option value='background'>Background</option>
-						<option value='card'>Card</option>
-						<option value='popover'>Popover</option>
-						<option value='primary'>Primary</option>
-						<option value='secondary'>Secondary</option>
-						<option value='accent'>Accent</option>
-						<option value='muted'>Muted</option>
-						<option value='destructive'>Destructive</option>
-					</optgroup>
-					<optgroup label='Text'>
-						<option value='foreground'>Foreground</option>
-						<option value='card-foreground'>Card Foreground</option>
-						<option value='popover-foreground'>Popover Foreground</option>
-						<option value='primary-foreground'>Primary Foreground</option>
-						<option value='secondary-foreground'>Secondary Foreground</option>
-						<option value='accent-foreground'>Accent Foreground</option>
-						<option value='muted-foreground'>Muted Foreground</option>
-						<option value='destructive-foreground'>Destructive Foreground</option>
-					</optgroup>
-					<optgroup label='Outros'>
-						<option value='input'>Input</option>
-						<option value='border'>Border</option>
-						<option value='ring'>Ring</option>
-						<option value='chart-1'>Chart 1</option>
-						<option value='chart-2'>Chart 2</option>
-						<option value='chart-3'>Chart 3</option>
-						<option value='chart-4'>Chart 4</option>
-						<option value='chart-5'>Chart 5</option>
-					</optgroup>
-				</select> */}
 
+				{/* Select */}
 				<Select onValueChange={(e) => setitemSelected(e)}>
 					<SelectTrigger className='w-full capitalize'>
 						<SelectValue placeholder='Select an Item' />
@@ -256,7 +238,7 @@ const Conversor = () => {
 						</SelectGroup>
 					</SelectContent>
 				</Select>
-
+				{/* Colors */}
 				<div className='bg-card mx-auto flex flex-wrap gap-2 rounded p-4'>
 					<div className='flex flex-col gap-1'>
 						<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-50 duration-150 hover:scale-110' onClick={selectColor}></button>
@@ -545,7 +527,28 @@ const Conversor = () => {
 						<button title='' className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-rose-950 duration-150 hover:scale-110' onClick={selectColor}></button>
 					</div>
 				</div>
-
+				{/* Radius */}
+				<div className='flex flex-col items-center gap-2 mb-4'>
+					<Label>Radius</Label>
+					<div className='flex w-full justify-evenly gap-1'>
+						<Button variant='outline' className={radius === '0' ? 'ring-ring ring' : ''} onClick={() => changeRadius('0')}>
+							0.00
+						</Button>
+						<Button variant='outline' className={radius === '0.25' ? 'ring-ring ring' : ''} onClick={() => changeRadius('0.25')}>
+							0.25
+						</Button>
+						<Button variant='outline' className={radius === '0.5' ? 'ring-ring ring' : ''} onClick={() => changeRadius('0.5')}>
+							0.50
+						</Button>
+						<Button variant='outline' className={radius === '0.75' ? 'ring-ring ring' : ''} onClick={() => changeRadius('0.75')}>
+							0.75
+						</Button>
+						<Button variant='outline' className={radius === '1' ? 'ring-ring ring' : ''} onClick={() => changeRadius('1')}>
+							1.00
+						</Button>
+					</div>
+				</div>
+				{/* Converter */}
 				<div className='flex flex-col gap-2'>
 					<Textarea placeholder='CSS DaisyUI' className='scroll h-70' onChange={(e) => setOriginText(e.target.value)} spellCheck='false' />
 					<div className='flex items-center justify-between gap-2'>
@@ -564,4 +567,4 @@ const Conversor = () => {
 	);
 };
 
-export default Conversor;
+export default SideBar;
