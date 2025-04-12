@@ -6,14 +6,17 @@ Uma ferramenta simples para transformar temas do DaisyUI em variáveis compatív
 
 ### 1. Acesse o Theme Generator
 
-Abra o gerador de temas no DaisyUI:  
+Abra o nosso site:  
+🔗 [https://theme-conversor.vercel.app/](https://theme-conversor.vercel.app/)
+
+Depois o site gerador de temas do DaisyUI:  
 🔗 [https://daisyui.com/theme-generator/](https://daisyui.com/theme-generator/)
 
 ---
 
 ### 2. Escolha seu Tema
 
-Use os controles para personalizar as cores conforme desejar.
+No DaisyUI, use os controles para personalizar as cores conforme desejar.
 
 ---
 
