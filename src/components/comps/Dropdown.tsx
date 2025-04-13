@@ -19,7 +19,7 @@ export function Dropdown() {
   return (
     <DropdownMenu >
       <DropdownMenuTrigger asChild className='ml-auto'>
-        <Button variant="ghost"><ChevronDown /></Button>
+        <Button variant="ghost" size='icon'><ChevronDown /></Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>

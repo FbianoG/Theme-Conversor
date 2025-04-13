@@ -1,13 +1,13 @@
-import Link from 'next/link';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import Pricing from './Pricing';
-import Image from 'next/image';
-import { ChevronsUpDown, Cpu, LayoutGridIcon, Zap } from 'lucide-react';
-import { Label } from './ui/label';
-import { Input } from './ui/input';
 import { Select } from '@radix-ui/react-select';
-import { SelectContent,  SelectItem,  SelectTrigger, SelectValue } from './ui/select';
+import { ChevronsUpDown, Cpu, LayoutGridIcon, Zap } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import Pricing from './Pricing';
+import { Badge } from '../ui/badge';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 const Preview = () => {
 	const links = [
@@ -126,8 +126,8 @@ const Preview = () => {
 	];
 
 	return (
-		<div className='h-screen flex-1 space-y-10 overflow-y-auto'>
-			<header className='flex items-center justify-between border-b px-20 py-6'>
+		<div className='w-full space-y-10'>
+			<header className='flex items-center justify-between border-b md:px-20 px-4 py-6'>
 				<Link href='/' className='text-foreground inline-flex items-center gap-2.5 text-2xl font-bold md:text-3xl' aria-label='logo'>
 					<svg width='95' height='94' viewBox='0 0 95 94' className='text-primary h-auto w-6' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>
 						<path d='M96 0V47L48 94H0V47L48 0H96Z' />
@@ -157,7 +157,7 @@ const Preview = () => {
 				</div>
 			</header>
 
-			<section className='flex flex-col items-center'>
+			<section className='flex flex-col items-center w-full p-4'>
 				<div className='bg-muted text-muted-foreground flex items-center gap-2 rounded border p-2'>
 					<Badge variant='secondary'>New</Badge>
 
@@ -176,8 +176,8 @@ const Preview = () => {
 					</p>
 
 					<div className='flex w-full flex-col gap-2.5 sm:flex-row sm:justify-center'>
-						<Button size='lg'>Start Now</Button>
-						<Button size='lg' variant='secondary'>
+						<Button >Start Now</Button>
+						<Button  variant='secondary'>
 							Take tour
 						</Button>
 					</div>
@@ -314,11 +314,11 @@ const Preview = () => {
 							<div className='relative'>
 								<ChevronsUpDown className='pointer-events-none absolute inset-y-0 right-2 my-auto opacity-75' size='0.75rem' />
 								<Select>
-									<SelectTrigger  className='w-full capitalize'>
-										<SelectValue placeholder='Language'/>
+									<SelectTrigger className='w-full capitalize'>
+										<SelectValue placeholder='Language' />
 									</SelectTrigger>
 									<SelectContent className='capitalize'>
-										<SelectItem  value='1'>English</SelectItem>
+										<SelectItem value='1'>English</SelectItem>
 										<SelectItem value='2'>Espanol</SelectItem>
 										<SelectItem value='3'>Français</SelectItem>
 									</SelectContent>
