@@ -195,6 +195,7 @@ const SideBar = () => {
 			<Sidebar>
 				<SidebarHeader>
 					<h3 className='Text-xl text-sidebar-foreground font-semibold'>Theme Conversor</h3>
+					<p className='bg'>Texto do parágrafo</p>
 				</SidebarHeader>
 				<SidebarContent className='scroll'>
 					<SidebarGroup>

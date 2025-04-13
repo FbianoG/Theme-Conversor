@@ -1,0 +1,51 @@
+@import 'tailwindcss';
+
+@theme {
+	--color-soft-green-50: #f1fbf4;
+	--color-soft-green-100: #d8f5e2;
+	--color-soft-green-200: #b0eac6;
+	--color-soft-green-300: #88dea9;
+	--color-soft-green-400: #60d38d;
+	--color-soft-green-500: #38c871;
+	--color-soft-green-600: #2c9f5a;
+	--color-soft-green-700: #217643;
+	--color-soft-green-800: #154c2b;
+	--color-soft-green-900: #0a2314;
+	--color-soft-green-950: #05110a;
+
+	--color-soft-blue-50: #f2f9fd;
+	--color-soft-blue-100: #d6eefb;
+	--color-soft-blue-200: #aeddf7;
+	--color-soft-blue-300: #86ccf3;
+	--color-soft-blue-400: #5ebbee;
+	--color-soft-blue-500: #36a9ea;
+	--color-soft-blue-600: #2b87bb;
+	--color-soft-blue-700: #20658c;
+	--color-soft-blue-800: #15435d;
+	--color-soft-blue-900: #0a222f;
+	--color-soft-blue-950: #051117;
+
+	--color-soft-red-50: #fef2f2;
+	--color-soft-red-100: #fddcdc;
+	--color-soft-red-200: #fbb4b4;
+	--color-soft-red-300: #f98d8d;
+	--color-soft-red-400: #f76666;
+	--color-soft-red-500: #f54040;
+	--color-soft-red-600: #c43535;
+	--color-soft-red-700: #932929;
+	--color-soft-red-800: #621c1c;
+	--color-soft-red-900: #310e0e;
+	--color-soft-red-950: #180707;
+
+  --color-soft-olive-50: #f8faf4;
+--color-soft-olive-100: #e9f0db;
+--color-soft-olive-200: #d4e2b9;
+--color-soft-olive-300: #bfd496;
+--color-soft-olive-400: #a9c673;
+--color-soft-olive-500: #94b850;
+--color-soft-olive-600: #76923f;
+--color-soft-olive-700: #596d2f;
+--color-soft-olive-800: #3b481f;
+--color-soft-olive-900: #1e230f;
+--color-soft-olive-950: #0f1208;
+}
