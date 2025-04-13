@@ -1,10 +1,10 @@
-
 import Link from 'next/link';
 
-import { HelpCircle} from 'lucide-react';
+import { Github, HelpCircle } from 'lucide-react';
 import { Button } from '../ui/button';
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import { DialogDescription } from '@radix-ui/react-dialog';
 
 const Helper = () => {
 	return (
@@ -18,59 +18,46 @@ const Helper = () => {
 				<DialogHeader>
 					<DialogTitle>Como Usar?</DialogTitle>
 				</DialogHeader>
-				
+
 				<div>
-					<h6 className='text-primary font-medium'>1. Acesse:</h6>
-					<Link target='_blank' href='https://daisyui.com/theme-generator/' className='text-sm hover:underline'>
-						https://daisyui.com/theme-generator/
-					</Link>
+					<h6 className='text-card-foreground font-medium'>1. Escolha seu tema:</h6>
+					<p className='text-card-foreground text-sm'>Use o seletor para customizar as cores do seu tema como preferir.</p>
 				</div>
 
 				<div>
-					<h6 className='text-primary font-medium'>2. Escolha seu tema:</h6>
-					<p className='text-sm'>Use o seletor para customizar as cores do seu tema como preferir.</p>
+					<h6 className='text-card-foreground font-medium'>2. Copie o CSS gerado:</h6>
+					<p className='text-card-foreground text-sm'>Copie o CSS gerado ao final do barra lateral.</p>
 				</div>
 
 				<div>
-					<h6 className='text-primary font-medium'>3. Copie o CSS gerado:</h6>
-					<p className='text-sm'>
-						Copie apenas as linhas que começam com <span className='bg-muted rounded px-2'>--</span> (variáveis CSS).
-					</p>
-					<p className='text-sm'>
-						Ex: <span className='bg-muted rounded px-2'> --color-base-100: oklch(20.84% 0.008 17.911);</span>
-					</p>
-					<p className='text-sm'>
-						Copie as as linhas que começam a partir do <span className='bg-muted rounded px-2'>--color-base-100</span> e vai até o{' '}
-						<span className='bg-muted rounded px-2 text-nowrap'>--noise</span> no CSS gerado.
-					</p>
-				</div>
-
-				<div>
-					<h6 className='text-primary font-medium'>4. Cole no campo do nosso site:</h6>
-					<p className='text-sm'>
-						Volte ao nosso site e cole essas variáveis no <span className='bg-muted rounded px-2'>Texarea</span> ao final da página, depois clique em{' '}
-						<span className='bg-muted rounded px-2'>“Converter”</span>
-					</p>
-					<p className='text-sm'>Ao lado irá gerar o CSS convertido para Shadcn.</p>
-				</div>
-
-				<div>
-					<h6 className='text-primary font-medium'>5. Atualize seu CSS:</h6>
-					<p className='text-sm'>
-						Copie o <span className='bg-muted rounded px-2'>:root</span> gerado e cole no seu arquivo globals.css, substituindo o{' '}
-						<span className='bg-muted rounded px-2'>:root</span> original.
+					<h6 className='text-card-foreground font-medium'>3. Atualize seu CSS:</h6>
+					<p className='text-card-foreground text-sm'>
+						Com o CSS copiado, cole no seu arquivo <span className='bg-muted rounded px-2'>globals.css</span>, substituindo o<span className='bg-muted rounded px-2'>:root</span>{' '}
+						original.
 					</p>
 
-					<p className='text-sm'>
-						Caso queria criar um Dark Theme, basta trocar o nome <span className='bg-muted rounded px-2'>:root</span> por <span className='bg-muted rounded px-2'>.dark </span>e
+					<p className='text-card-foreground text-sm'>
+						Caso queria criar um Dark Theme, basta trocar o nome <span className='bg-muted rounded px-2'>:root</span> por <span className='bg-muted rounded px-2'>.dark</span> e
 						substituir seu <span className='bg-muted rounded px-2'>.dark</span> original.
 					</p>
 				</div>
 
 				<div>
-					<h6 className='text-primary font-medium'>Observação:</h6>
-					<p className='text-sm'>Você pode alterar o CSS gerado, isso ajudará você a ver como ficará seu tema em seus componentes Shadcn. </p>
+					<h6 className='text-card-foreground font-medium'>Observação:</h6>
+					<p className='text-card-foreground text-sm'>
+						Não é gerado cores para o <span className='bg-muted rounded px-2'>--sidebar</span>. O ideal é você configurar seu{' '}
+						<span className='bg-muted rounded px-2'>@Theme inline</span> para o <span className='bg-muted rounded px-2'>--sidebar</span> puxar cores de outras variáves.
+					</p>
+					<p className='text-card-foreground text-sm'>
+						Ex: <span className='bg-muted rounded px-2'>--color-sidebar: var(--card);</span>.
+					</p>
 				</div>
+				<DialogFooter className='sm:justify-start'>
+					<DialogDescription>Acesse:</DialogDescription>
+					<Link target='_blank' href='https://github.com/FbianoG/Theme-Conversor' className='hover:text-muted-foreground block duration-300'>
+						<Github size={25} />
+					</Link>
+				</DialogFooter>
 			</DialogContent>
 		</Dialog>
 	);
