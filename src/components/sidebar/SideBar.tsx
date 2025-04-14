@@ -1,13 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
-
 import { Button } from '../ui/button';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarHeader } from '../ui/sidebar';
 import { Textarea } from '../ui/textarea';
-import SidebarColors from './SideBarColors';
-import SideBarSelect from './SideBarSelect';
-
 import Themes from '@/utils/themes';
+import SideBarItemColor from './SideBarItemColor';
+import { ChevronDownIcon, ChevronRightIcon, Copy } from 'lucide-react';
+import SideBarOutherColor from './SideBarOutherColor.';
 
 // interface ColorItem {
 // 	key: string;
@@ -24,9 +23,13 @@ const SideBar = () => {
 	// Estado para armazenar o CSS dinâmico
 	const [dynamicCSS, setDynamicCSS] = useState<string>('');
 
-	const [itemSelected, setitemSelected] = useState<string>('');
+	const [itemSelected, setItemSelected] = useState<string>('');
 
 	const [radius, setRadius] = useState<string>();
+
+	const [selectTheme, setSelectTheme] = useState<string>('initial');
+
+	const [collapseThemes, setCollapseThemes] = useState<boolean>(true);
 
 	// const convertText = () => {
 	// 	const obj: ColorItem[] = originText
@@ -161,6 +164,11 @@ const SideBar = () => {
 			}, 4000);
 	}, [copy]);
 
+	const copyText = () => {
+		setCopy(true);
+		navigator.clipboard.writeText(coversorText);
+	};
+
 	const changeColor = (item: string, newColor: string) => {
 		coversorText.split('\n').forEach((e) => {
 			if (e.includes(item)) {
@@ -186,12 +194,13 @@ const SideBar = () => {
 		});
 	};
 
-	const [selectTheme, setSelectTheme] = useState<string>('initial');
-
 	const changeTheme = (value: string, key: string) => {
 		setCoversorText(value);
 		setSelectTheme(key);
 	};
+
+	const deeps = ['background', 'card', 'popover', 'primary', 'secondary', 'accent', 'muted', 'destructive'];
+	const outhers = ['input', 'border', 'ring', 'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5'];
 
 	return (
 		<>
@@ -204,27 +213,21 @@ const SideBar = () => {
 				</SidebarHeader>
 				<SidebarContent className='scroll'>
 					<SidebarGroup>
-						<SidebarGroupLabel>Themes</SidebarGroupLabel>
-						<div className='grid grid-cols-3 gap-x-1'>
-							{Object.entries(Themes).map(([key, value]) => {
-								return (
-									<Button
-										key={key}
-										title={key}
-										variant='ghost'
-										size='sm'
-										className={`w-full justify-start text-sm capitalize ${selectTheme === key ? 'bg-accent text-accent-foreground' : ''}`}
-										onClick={() => changeTheme(value, key)}>
-										{key}
-									</Button>
-								);
-							})}
+						<SidebarGroupLabel>Colors</SidebarGroupLabel>
+						<div className='grid grid-cols-4 gap-2'>
+							{deeps.map((item, index) => (
+								<SideBarItemColor key={index + item} item={item} ItemSelected={itemSelected} selectColor={selectColor} setItemSelected={setItemSelected} />
+							))}
 						</div>
 					</SidebarGroup>
+
 					<SidebarGroup>
-						<SidebarGroupLabel>Colors</SidebarGroupLabel>
-						<SideBarSelect setitemSelected={setitemSelected} />
-						<SidebarColors selectColor={selectColor} />
+						<SidebarGroupLabel>Outher Colors</SidebarGroupLabel>
+						<div className='grid grid-cols-4 gap-2'>
+							{outhers.map((item, index) => (
+								<SideBarOutherColor key={index + item} item={item} ItemSelected={itemSelected} selectColor={selectColor} setItemSelected={setItemSelected} />
+							))}
+						</div>
 					</SidebarGroup>
 
 					<SidebarGroup>
@@ -248,8 +251,35 @@ const SideBar = () => {
 						</div>
 					</SidebarGroup>
 
+					<SidebarGroup>
+						<SidebarGroupLabel className='hover:text-muted-foreground duration-300 cursor-pointer' onClick={() => setCollapseThemes(!collapseThemes)}>Themes {collapseThemes ? <ChevronRightIcon /> : <ChevronDownIcon />}</SidebarGroupLabel>
+						<div className={`grid grid-cols-3 gap-x-1 overflow-hidden duration-500 ease-in-out ${collapseThemes ? 'max-h-0' : 'max-h-100'}`}>
+							{Object.entries(Themes).map(([key, value]) => {
+								return (
+									<Button
+										key={key}
+										title={key}
+										variant='ghost'
+										size='sm'
+										className={`w-full justify-start text-xs capitalize ${selectTheme === key ? 'bg-accent text-accent-foreground' : ''}`}
+										onClick={() => changeTheme(value, key)}>
+										{key}
+									</Button>
+								);
+							})}
+						</div>
+					</SidebarGroup>
+
 					<SidebarGroup className='space-y-2'>
-						<SidebarGroupLabel>Editor</SidebarGroupLabel>
+						<SidebarGroupLabel>
+							Editor{' '}
+							<div className='flex items-center w-max ml-auto gap-2'>
+								{copy && <p className='text-muted-foreground text-sm'>Texto Copiado</p>}
+								<Button variant='ghost' className='w-max' onClick={copyText}>
+									<Copy />
+								</Button>
+							</div>
+						</SidebarGroupLabel>
 						{/* <Textarea placeholder='CSS DaisyUI' className='scroll h-70' onChange={(e) => setOriginText(e.target.value)} spellCheck='false' />
 						<div className='flex items-center justify-between gap-2'>
 							<Button onClick={convertText} className='flex items-center gap-2' disabled={!originText}>
@@ -259,7 +289,8 @@ const SideBar = () => {
 							<Button variant='ghost' className='w-max' onClick={copyText}>
 								<Copy />
 							</Button>
-						</div> */}
+							</div> */}
+
 						<Textarea className='scroll h-70' value={coversorText} onChange={(e) => setCoversorText(e.target.value)} spellCheck='false' />
 					</SidebarGroup>
 				</SidebarContent>

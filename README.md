@@ -1,4 +1,4 @@
-# 🎨 Theme Converter  DaisyUI para Shadcn
+# 🎨 Shadcn Theme Generator
 
 Uma ferramenta simples para gerar temas compatíveis com o sistema de design do Shadcn/UI.
 

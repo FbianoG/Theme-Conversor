@@ -2,9 +2,9 @@ interface Props {
 	selectColor: (e: React.MouseEvent) => void;
 }
 
-const SidebarColors = ({ selectColor }: Props) => {
+const Colors = ({ selectColor }: Props) => {
 	return (
-		<div className='mx-auto flex flex-wrap gap-2 rounded p-4'>
+		<div className='mx-auto flex flex-wrap justify-center gap-2 rounded p-4'>
 			<div className='flex flex-col gap-1'>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-50 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-100 duration-150 hover:scale-110' onClick={selectColor}></button>
@@ -70,7 +70,6 @@ const SidebarColors = ({ selectColor }: Props) => {
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-stone-900 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-stone-950 duration-150 hover:scale-110' onClick={selectColor}></button>
 			</div>
-
 			<div className='flex flex-col gap-1'>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-red-50 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-red-100 duration-150 hover:scale-110' onClick={selectColor}></button>
@@ -84,7 +83,6 @@ const SidebarColors = ({ selectColor }: Props) => {
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-red-900 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-red-950 duration-150 hover:scale-110' onClick={selectColor}></button>
 			</div>
-
 			<div className='flex flex-col gap-1'>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-orange-50 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-orange-100 duration-150 hover:scale-110' onClick={selectColor}></button>
@@ -98,7 +96,6 @@ const SidebarColors = ({ selectColor }: Props) => {
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-orange-900 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-orange-950 duration-150 hover:scale-110' onClick={selectColor}></button>
 			</div>
-
 			<div className='flex flex-col gap-1'>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-amber-50 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-amber-100 duration-150 hover:scale-110' onClick={selectColor}></button>
@@ -112,7 +109,6 @@ const SidebarColors = ({ selectColor }: Props) => {
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-amber-900 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-amber-950 duration-150 hover:scale-110' onClick={selectColor}></button>
 			</div>
-
 			<div className='flex flex-col gap-1'>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-yellow-50 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-yellow-100 duration-150 hover:scale-110' onClick={selectColor}></button>
@@ -126,7 +122,6 @@ const SidebarColors = ({ selectColor }: Props) => {
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-yellow-900 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-yellow-950 duration-150 hover:scale-110' onClick={selectColor}></button>
 			</div>
-
 			<div className='flex flex-col gap-1'>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-lime-50 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-lime-100 duration-150 hover:scale-110' onClick={selectColor}></button>
@@ -153,7 +148,6 @@ const SidebarColors = ({ selectColor }: Props) => {
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-green-900 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-green-950 duration-150 hover:scale-110' onClick={selectColor}></button>
 			</div>
-
 			<div className='flex flex-col gap-1'>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-emerald-50 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-emerald-100 duration-150 hover:scale-110' onClick={selectColor}></button>
@@ -219,7 +213,6 @@ const SidebarColors = ({ selectColor }: Props) => {
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-blue-900 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-blue-950 duration-150 hover:scale-110' onClick={selectColor}></button>
 			</div>
-
 			<div className='flex flex-col gap-1'>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-indigo-50 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-indigo-100 duration-150 hover:scale-110' onClick={selectColor}></button>
@@ -233,7 +226,6 @@ const SidebarColors = ({ selectColor }: Props) => {
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-indigo-900 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-indigo-950 duration-150 hover:scale-110' onClick={selectColor}></button>
 			</div>
-
 			<div className='flex flex-col gap-1'>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-violet-50 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-violet-100 duration-150 hover:scale-110' onClick={selectColor}></button>
@@ -260,7 +252,6 @@ const SidebarColors = ({ selectColor }: Props) => {
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-purple-900 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-purple-950 duration-150 hover:scale-110' onClick={selectColor}></button>
 			</div>
-
 			<div className='flex flex-col gap-1'>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-fuchsia-50 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-fuchsia-100 duration-150 hover:scale-110' onClick={selectColor}></button>
@@ -300,9 +291,7 @@ const SidebarColors = ({ selectColor }: Props) => {
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-rose-900 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-rose-950 duration-150 hover:scale-110' onClick={selectColor}></button>
 			</div>
-
-			<h3 className='w-full text-xs'>Custom Colors</h3>
-			<div className='flex flex-col gap-1'>
+			<div className='ml-4 flex flex-col gap-1'>
 				<button className='bg-soft-red-50 h-5 w-5 cursor-pointer rounded-full border border-[#0003] duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='bg-soft-red-100 h-5 w-5 cursor-pointer rounded-full border border-[#0003] duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='bg-soft-red-200 h-5 w-5 cursor-pointer rounded-full border border-[#0003] duration-150 hover:scale-110' onClick={selectColor}></button>
@@ -380,7 +369,6 @@ const SidebarColors = ({ selectColor }: Props) => {
 				<button className='bg-soft-olive-900 h-5 w-5 cursor-pointer rounded-full border border-[#0003] duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='bg-soft-olive-950 h-5 w-5 cursor-pointer rounded-full border border-[#0003] duration-150 hover:scale-110' onClick={selectColor}></button>
 			</div>
-
 			<div className='flex flex-col gap-1'>
 				<button className='bg-soft-green-50 h-5 w-5 cursor-pointer rounded-full border border-[#0003] duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='bg-soft-green-100 h-5 w-5 cursor-pointer rounded-full border border-[#0003] duration-150 hover:scale-110' onClick={selectColor}></button>
@@ -450,4 +438,4 @@ const SidebarColors = ({ selectColor }: Props) => {
 	);
 };
 
-export default SidebarColors;
+export default Colors;
