@@ -10,32 +10,8 @@ import { Eye } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Home() {
-	// const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
 	const [prev, setPrev] = useState<boolean>(false);
-
-	// const changeDarkMode = () => {
-	// 	if (document.documentElement.classList.contains('dark')) {
-	// 		document.documentElement.classList.remove('dark');
-	// 		localStorage.setItem('theme', 'light');
-	// 		setTheme('light');
-	// 	} else {
-	// 		document.documentElement.classList.add('dark');
-	// 		localStorage.setItem('theme', 'dark');
-	// 		setTheme('dark');
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	const theme = localStorage.getItem('theme');
-	// 	if (theme === 'dark') {
-	// 		document.documentElement.classList.add('dark');
-	// 		setTheme('dark');
-	// 	} else {
-	// 		document.documentElement.classList.remove('dark');
-	// 		setTheme('light');
-	// 	}
-	// }, []);
 
 	return (
 		<SidebarProvider>

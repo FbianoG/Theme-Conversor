@@ -181,6 +181,7 @@ const SideBar = () => {
 	const selectColor = (e: any) => {
 		const newColor = getComputedStyle(e.target).backgroundColor;
 		if (!itemSelected) return;
+		console.log( newColor )
 		changeColor(`--${itemSelected}:`, newColor);
 	};
 
