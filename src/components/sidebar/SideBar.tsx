@@ -31,126 +31,6 @@ const SideBar = () => {
 
 	const [collapseThemes, setCollapseThemes] = useState<boolean>(true);
 
-	// const convertText = () => {
-	// 	const obj: ColorItem[] = originText
-	// 		.split('--')
-	// 		.filter(Boolean)
-	// 		.map((item) => {
-	// 			const [key, value] = item.split(':').map((str) => str.trim());
-	// 			return { key, value };
-	// 		});
-
-	// 	const filteredObj = obj.filter((item) => item.key && item.key !== 'color-info-content' && item.key !== 'radius-selector' && item.key !== 'radius-field');
-
-	// 	const newObj: ColorItem[] = filteredObj.map((item) => {
-	// 		if (item.key === 'color-base-100') {
-	// 			item.key = 'color-card';
-	// 		}
-	// 		if (item.key === 'color-base-200') item.key = 'color-background';
-	// 		if (item.key === 'color-base-300') item.key = 'color-popover';
-	// 		if (item.key === 'color-base-content') item.key = 'color-foreground';
-	// 		if (item.key === 'color-primary-content') item.key = 'color-primary-foreground';
-	// 		if (item.key === 'color-accent-content') item.key = 'color-accent-foreground';
-	// 		if (item.key === 'size-selector') {
-	// 			const selectColor = obj.find((e) => e.key === 'color-foreground');
-	// 			if (selectColor) {
-	// 				item.value = selectColor.value;
-	// 				item.key = 'color-card-foreground';
-	// 			}
-	// 		}
-	// 		if (item.key === 'size-field') {
-	// 			const selectColor = obj.find((e) => e.key === 'color-foreground');
-	// 			if (selectColor) {
-	// 				item.value = selectColor.value;
-	// 				item.key = 'color-popover-foreground';
-	// 			}
-	// 		}
-	// 		if (item.key === 'color-secondary') {
-	// 			const selectColor = obj.find((e) => e.key === 'color-primary-foreground');
-	// 			if (selectColor) {
-	// 				item.value = selectColor.value.slice(0, -2) + '/0.5);';
-	// 			}
-	// 		}
-	// 		if (item.key === 'color-secondary-content') {
-	// 			const selectColor = obj.find((e) => e.key === 'color-primary');
-	// 			if (selectColor) {
-	// 				item.value = selectColor.value;
-	// 				item.key = 'color-secondary-foreground';
-	// 			}
-	// 		}
-	// 		if (item.key === 'color-neutral') {
-	// 			const selectColor = obj.find((e) => e.key === 'color-foreground');
-	// 			if (selectColor) {
-	// 				item.value = selectColor.value.slice(0, -2) + '/0.1);';
-	// 				item.key = 'color-muted';
-	// 			}
-	// 		}
-	// 		if (item.key === 'color-neutral-content') {
-	// 			const selectColor = obj.find((e) => e.key === 'color-foreground');
-	// 			if (selectColor) {
-	// 				item.value = selectColor.value.slice(0, -2) + '/0.5);';
-	// 				item.key = 'color-muted-foreground';
-	// 			}
-	// 		}
-	// 		if (item.key === 'border') {
-	// 			const selectColor = obj.find((e) => e.key === 'color-foreground');
-	// 			if (selectColor) {
-	// 				item.value = selectColor.value.slice(0, -2) + '/0.1);';
-	// 			}
-	// 		}
-	// 		if (item.key === 'depth') {
-	// 			const selectColor = obj.find((e) => e.key === 'color-foreground');
-	// 			if (selectColor) {
-	// 				item.value = selectColor.value.slice(0, -2) + '/0.3);';
-	// 				item.key = 'input';
-	// 			}
-	// 		}
-	// 		if (item.key === 'noise') {
-	// 			const selectColor = obj.find((e) => e.key === 'color-primary');
-	// 			if (selectColor) {
-	// 				item.value = selectColor.value.slice(0, -2) + '/0.5);';
-	// 				item.key = 'ring';
-	// 			}
-	// 		}
-	// 		if (item.key === 'radius-box') {
-	// 			item.key = 'radius';
-	// 			setRadius(item.value.replace('rem', ''));
-	// 		}
-	// 		if (item.key === 'color-info') item.key = 'chart-1';
-	// 		if (item.key === 'color-warning') item.key = 'chart-2';
-	// 		if (item.key === 'color-success') item.key = 'chart-3';
-	// 		if (item.key === 'color-success-content') {
-	// 			const selectColor = obj.find((e) => e.key === 'color-error');
-	// 			if (selectColor) {
-	// 				item.value = selectColor.value;
-	// 				item.key = 'chart-4';
-	// 			}
-	// 		}
-	// 		if (item.key === 'color-warning-content') {
-	// 			const selectColor = obj.find((e) => e.key === 'color-foreground');
-	// 			if (selectColor) {
-	// 				item.value = selectColor.value.slice(0, -2) + '/0.3);';
-	// 				item.key = 'chart-5';
-	// 			}
-	// 		}
-	// 		if (item.key === 'color-error') item.key = 'color-destructive';
-	// 		if (item.key === 'color-error-content') item.key = 'color-destructive-foreground';
-	// 		return item;
-	// 	});
-
-	// 	const cssVariables = newObj.map(({ key, value }) => `--${key.replace('color-', '')}: ${value}`).join('\n');
-
-	// 	const cssResult = `:root {\n${cssVariables}}`;
-
-	// 	// Atualiza o CSS dinâmico
-	// 	setCoversorText(cssResult);
-	// };
-
-	// const copyText = () => {
-	// 	navigator.clipboard.writeText(coversorText);
-	// 	setCopy(true);
-	// };
-
 	useEffect(() => {
 		if (coversorText) setDynamicCSS(coversorText);
 		const radius = coversorText.split('\n').find((e) => e.includes('radius'));
@@ -179,9 +59,9 @@ const SideBar = () => {
 	};
 
 	const selectColor = (e: any) => {
-		const newColor = getComputedStyle(e.target).backgroundColor;
+		const target = e.target;
+		const newColor = target.tagName === 'BUTTON' ? getComputedStyle(e.target).backgroundColor : target.value;
 		if (!itemSelected) return;
-		console.log( newColor )
 		changeColor(`--${itemSelected}:`, newColor);
 	};
 
@@ -253,7 +133,9 @@ const SideBar = () => {
 					</SidebarGroup>
 
 					<SidebarGroup>
-						<SidebarGroupLabel className='hover:text-muted-foreground duration-300 cursor-pointer' onClick={() => setCollapseThemes(!collapseThemes)}>Themes {collapseThemes ? <ChevronRightIcon /> : <ChevronDownIcon />}</SidebarGroupLabel>
+						<SidebarGroupLabel className='hover:text-muted-foreground cursor-pointer duration-300' onClick={() => setCollapseThemes(!collapseThemes)}>
+							Themes {collapseThemes ? <ChevronRightIcon /> : <ChevronDownIcon />}
+						</SidebarGroupLabel>
 						<div className={`grid grid-cols-3 gap-x-1 overflow-hidden duration-500 ease-in-out ${collapseThemes ? 'max-h-0' : 'max-h-100'}`}>
 							{Object.entries(Themes).map(([key, value]) => {
 								return (
@@ -274,7 +156,7 @@ const SideBar = () => {
 					<SidebarGroup className='space-y-2'>
 						<SidebarGroupLabel>
 							Editor{' '}
-							<div className='flex items-center w-max ml-auto gap-2'>
+							<div className='ml-auto flex w-max items-center gap-2'>
 								{copy && <p className='text-muted-foreground text-sm'>Texto Copiado</p>}
 								<Button variant='ghost' className='w-max' onClick={copyText}>
 									<Copy />

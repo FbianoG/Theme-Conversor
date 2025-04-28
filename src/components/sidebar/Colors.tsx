@@ -1,10 +1,11 @@
 interface Props {
-	selectColor: (e: React.MouseEvent) => void;
+	selectColor: (e: React.MouseEvent | React.ChangeEvent) => void;
 }
 
 const Colors = ({ selectColor }: Props) => {
 	return (
 		<div className='mx-auto flex flex-wrap justify-center gap-2 rounded p-4'>
+			<input type='color' onChange={selectColor} />
 			<div className='flex flex-col gap-1'>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-50 duration-150 hover:scale-110' onClick={selectColor}></button>
 				<button className='h-5 w-5 cursor-pointer rounded-full border border-[#0003] bg-slate-100 duration-150 hover:scale-110' onClick={selectColor}></button>

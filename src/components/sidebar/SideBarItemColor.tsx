@@ -5,7 +5,7 @@ import Colors from './Colors';
 interface Props {
 	item: string;
 	ItemSelected: string;
-	selectColor: (e: React.MouseEvent) => void;
+	selectColor: (e: React.MouseEvent | React.ChangeEvent) => void;
 	setItemSelected: (value: string) => void;
 }
 
